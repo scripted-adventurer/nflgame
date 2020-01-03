@@ -80,12 +80,16 @@ There are several active contributors to nflgame that watch the issue tracker.
 We tend to respond fairly quickly!
 """
 
+try:
+    from collections import OrderedDict
+except:
+    from ordereddict import OrderedDict  # from PyPI
 import itertools
 
 import sys
 
-if sys.version_info[:2] != (2, 7):
-    print("nflgame requires Python 2.7 and does not yet work with Python 3")
+if sys.version_info[0] != 2 or sys.version_info[1] < 6:
+    print("nflgame requires Python 2.6+ and does not yet work with Python 3")
     print("You are running Python version {}.{}".format(
         sys.version_info.major, sys.version_info.minor))
     sys.exit(1)
@@ -97,6 +101,7 @@ import nflgame.sched  # noqa
 import nflgame.seq  # noqaj
 from nflgame.version import __version__  # noqa
 
+assert OrderedDict  # Asserting the import for static analysis.
 VERSION = __version__  # Deprecated. Backwards compatibility.
 
 NoPlayers = nflgame.seq.GenPlayerStats(None)
@@ -127,9 +132,12 @@ teams = [
     ['GB', 'Green Bay', 'Packers', 'Green Bay Packers', 'G.B.', 'GNB'],
     ['HOU', 'Houston', 'Texans', 'Houston Texans'],
     ['IND', 'Indianapolis', 'Colts', 'Indianapolis Colts'],
-    ['JAC', 'Jacksonville', 'Jaguars', 'Jacksonville Jaguars', 'JAX'],
+    ['JAX', 'Jacksonville', 'Jaguars', 'Jacksonville Jaguars', 'JAC'],
     ['KC', 'Kansas City', 'Chiefs', 'Kansas City Chiefs', 'K.C.', 'KAN'],
+    #['STL', 'St. Louis', 'Rams', 'St. Louis Rams', 'S.T.L.'],
     ['LA', 'Los Angeles', 'Rams', 'Los Angeles Rams', 'L.A.'],
+    #['SD', 'San Diego', 'Chargers', 'San Diego Chargers', 'S.D.', 'SDG'],
+    ['LAC', 'Chargers', 'Los Angeles Chargers', 'L.A.C.'],
     ['MIA', 'Miami', 'Dolphins', 'Miami Dolphins'],
     ['MIN', 'Minnesota', 'Vikings', 'Minnesota Vikings'],
     ['NE', 'New England', 'Patriots', 'New England Patriots', 'N.E.', 'NWE'],
@@ -139,10 +147,8 @@ teams = [
     ['OAK', 'Oakland', 'Raiders', 'Oakland Raiders'],
     ['PHI', 'Philadelphia', 'Eagles', 'Philadelphia Eagles'],
     ['PIT', 'Pittsburgh', 'Steelers', 'Pittsburgh Steelers'],
-    ['SD', 'San Diego', 'Chargers', 'San Diego Chargers', 'S.D.', 'SDG'],
     ['SEA', 'Seattle', 'Seahawks', 'Seattle Seahawks'],
     ['SF', 'San Francisco', '49ers', 'San Francisco 49ers', 'S.F.', 'SFO'],
-    ['STL', 'St. Louis', 'Rams', 'St. Louis Rams', 'S.T.L.'],
     ['TB', 'Tampa Bay', 'Buccaneers', 'Tampa Bay Buccaneers', 'T.B.', 'TAM'],
     ['TEN', 'Tennessee', 'Titans', 'Tennessee Titans'],
     ['WAS', 'Washington', 'Redskins', 'Washington Redskins', 'WSH'],

@@ -176,7 +176,7 @@ def meta_from_soup_row(team, soup_row):
     if ',' not in name:
         last_name, first_name = name, ''
     else:
-        last_name, first_name = map(lambda s: s.strip(), name.split(','))
+        last_name, first_name = map(lambda s: s.strip(), name.split(','))[:2]
 
     return {
         'team': team,
@@ -316,7 +316,8 @@ def run():
 
     if args.json_update_file is None:
         args.json_update_file = nflgame.player._player_json_file
-    teams = [team[0] for team in nflgame.teams if team[0] != 'STL']
+            
+    teams = [team[0] for team in nflgame.teams]
     pool = multiprocessing.pool.ThreadPool(args.simultaneous_reqs)
 
     # Before doing anything laborious, make sure we have write access to
@@ -405,7 +406,7 @@ def run():
 
     def fetch(team):
         return team, roster_soup(team)
-    for i, (team, soup) in enumerate(pool.imap(fetch, teams), 1):
+    for i, (team, soup) in enumerate(pool.imap(fetch, teams), 1): 
         progress(i, len(teams))
 
         if soup is None:
